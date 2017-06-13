@@ -14,6 +14,16 @@ use Illuminate\Http\Request;
 */
 Route::post('login','API\UserController@login');
 Route::post('register','API\UserController@register');
+
+
+Route::post('login/driver','API\DriverController@login');
+Route::post('register/driver','API\DriverController@register');
+Route::get('register/driver',function(){
+  echo 'welcome Driver ';
+});
+
+
+
 Route::get('hola',function(){
   echo 'dasdasdddddd ';
 });
