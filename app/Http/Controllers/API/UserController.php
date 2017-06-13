@@ -12,11 +12,21 @@ class UserController extends Controller
 {
     public $successStatus=200;
 
+    public function __construct()
+    {
+        $this->middleware('auth:api',['only'=>['details']]);
+    }
+
+    protected function guard()
+{
+    return Auth::guard('auth');
+}
+
     public function login(){
       if (Auth::attempt(['email'=>request('email'),'password'=>request('password')])) {
         $user=Auth::user();
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
-        return response()->json(['success' => $success], $this->successStatus);
+        $success['token'] =  $user->createToken('MyApp sd')->accessToken;
+        return response()->json(['success Login User' => $success], $this->successStatus);
       }else{
         return response()->json(['errorrr'=>'Unauthorised'], 401);
         }
@@ -24,7 +34,7 @@ class UserController extends Controller
 
     /**
      * Register api
-     */
+**/
     public function register(Request $request){
       $validator = Validator::make($request->all(), [
            'name' => 'required',
@@ -47,7 +57,8 @@ class UserController extends Controller
     }
     public function details()
    {
-       $user = Auth::user();
+       $user=Auth::user()->name;
        return response()->json(['success' => $user], $this->successStatus);
    }
+
 }

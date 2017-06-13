@@ -14,17 +14,18 @@ use Validator;
 class DriverController extends Controller
 {
   public $successStatus=200;
-  protected function guard()
-{
-    return Auth::guard('apidriver');
-}
+  public function __construct()
+  {
+      $this->middleware('auth:apidriver',['only'=>['details']]);
+
+  }
 
   public function login(){
 
     if (Auth::guard('apidriver')->attempt(['email'=>request('email'),'password'=>request('password')])) {
-      $driver=Auth::User();
+      $driver=Auth::guard('apidriver')->user();
       $success['token'] =  $driver->createToken('MyApp')->accessToken;
-      return response()->json(['success' => $success], $this->successStatus);
+      return response()->json(['success Driver ;D' => $driver], $this->successStatus);
     }else{
       return response()->json(['errorrr'=>'Unauthorised'], 401);
       }
@@ -38,7 +39,9 @@ class DriverController extends Controller
          'name' => 'required',
          'email' => 'required|email',
          'password' => 'required',
-
+         'password' => 'required',
+         'last'=>'required',
+         'cc'=>'required',
      ]);
 
      if ($validator->fails()) {
