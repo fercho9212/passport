@@ -16,7 +16,7 @@ class DriverController extends Controller
   public $successStatus=200;
   public function __construct()
   {
-      $this->middleware('auth:apidriver',['only'=>['details']]);
+    //  $this->middleware('auth:apidriver',['only'=>['details']]);
 
   }
 
@@ -24,8 +24,8 @@ class DriverController extends Controller
 
     if (Auth::guard('apidriver')->attempt(['email'=>request('email'),'password'=>request('password')])) {
       $driver=Auth::guard('apidriver')->user();
-      $success['token'] =  $driver->createToken('MyApp')->accessToken;
-      return response()->json(['success Driver ;D' => $driver], $this->successStatus);
+      $success['token'] =  $driver->createToken('Pizza App')->accessToken;
+      return response()->json(['success' => $success], $this->successStatus);
     }else{
       return response()->json(['errorrr'=>'Unauthorised'], 401);
       }
@@ -38,7 +38,6 @@ class DriverController extends Controller
     $validator = Validator::make($request->all(), [
          'name' => 'required',
          'email' => 'required|email',
-         'password' => 'required',
          'password' => 'required',
          'last'=>'required',
          'cc'=>'required',
@@ -58,7 +57,7 @@ class DriverController extends Controller
   }
   public function details()
  {
-     $driver = Auth::driver();
-     return response()->json(['success' => $driver], $this->successStatus);
+     return response()->json(['Driver' => Auth::guard('apidriver')->user()]);
  }
+
 }

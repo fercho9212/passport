@@ -14,9 +14,3 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('login',function(){
-  echo 'Error  ';
-});
-Route::get('/logind',function(){
-  echo 'Error Driver';
-});

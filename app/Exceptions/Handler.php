@@ -71,7 +71,7 @@ class Handler extends ExceptionHandler
           break;
 
           default:
-            # code...
+            $login='login';
             break;
         }
         //return response()->json(['Authentucated fallide' => $login])

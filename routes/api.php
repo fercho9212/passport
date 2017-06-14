@@ -13,15 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 Route::post('login','API\UserController@login');
-Route::get('details','API\UserController@details');
+Route::post('details','API\UserController@details');
 Route::post('register','API\UserController@register');
-Route::get('login',function(){
-  echo 'wer ';
-});
+Route::post('saludo','API\UserController@saludo');
 
+Route::get('login',function(){
+  echo "dasdas";
+});
 
 Route::post('login/driver','API\DriverController@login');
 Route::post('register/driver','API\DriverController@register');
+Route::post('details/driver','API\DriverController@details');
+
 Route::get('register/driver',function(){
   echo 'welcome Driver ';
 });

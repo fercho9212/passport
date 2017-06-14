@@ -14,7 +14,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api',['only'=>['details']]);
+        $this->middleware('auth:api',['only'=>['details','saludo']]);
     }
 
     protected function guard()
@@ -26,9 +26,9 @@ class UserController extends Controller
       if (Auth::attempt(['email'=>request('email'),'password'=>request('password')])) {
         $user=Auth::user();
         $success['token'] =  $user->createToken('MyApp sd')->accessToken;
-        return response()->json(['success Login User' => $success], $this->successStatus);
+        return response()->json(['result' => $success,'rpt'=>'success'],$this->successStatus);
       }else{
-        return response()->json(['errorrr'=>'Unauthorised'], 401);
+        return response()->json(['result'=>'Unauthorised','rpt'=>'error'], 200);
         }
     }
 
@@ -44,7 +44,7 @@ class UserController extends Controller
        ]);
 
        if ($validator->fails()) {
-           return response()->json(['error'=>$validator->errors()], 401);
+           return response()->json(['error'=>$validator->errors()], 200);
        }
 
        $input = $request->all();
@@ -53,12 +53,14 @@ class UserController extends Controller
        $success['token'] =  $user->createToken('MyApp')->accessToken;
        $success['name'] =  $user->name;
 
-       return response()->json(['success'=>$success], $this->successStatus);
+       return response()->json(['success'=>$success,'rpt'=>'success'], $this->successStatus);
     }
     public function details()
    {
-       $user=Auth::user()->name;
-       return response()->json(['success' => $user], $this->successStatus);
+     return response()->json(['user' => Auth::guard('api')->user()]);
+   }
+   public function saludo(){
+     return 'Esta es una funcion';
    }
 
 }
